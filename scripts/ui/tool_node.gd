@@ -34,7 +34,15 @@ func _ready() -> void:
 ## Sets up the node with its runtime tool reference and allowed recipes.
 func setup_node(tool_instance: RuntimeTool) -> void:
 	runtime_tool = tool_instance
-	title = runtime_tool.tool_data.name
+	
+	if runtime_tool.is_importer:
+		var ing: IngredientData = DataManager.ingredients.get(runtime_tool.import_ingredient_id)
+		title = "Import: " + (ing.name if ing else runtime_tool.import_ingredient_id.capitalize())
+	elif runtime_tool.is_exporter:
+		var ing: IngredientData = DataManager.ingredients.get(runtime_tool.import_ingredient_id)
+		title = "Export: " + (ing.name if ing else runtime_tool.import_ingredient_id.capitalize())
+	else:
+		title = runtime_tool.tool_data.name
 	
 	# Populate recipes OptionButton
 	recipe_button.clear()
