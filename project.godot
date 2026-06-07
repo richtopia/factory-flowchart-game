@@ -12,6 +12,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 DataManager="*res://scripts/autoloads/data_manager.gd"
+SimulationEngine="*res://scripts/simulation/simulation_engine.gd"
 
 [display]
 
