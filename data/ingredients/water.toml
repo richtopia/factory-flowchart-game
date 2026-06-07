@@ -1,0 +1,5 @@
+id = "water"
+name = "Water"
+base_unit = "L"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/water.png"

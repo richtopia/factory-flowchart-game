@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="16" fill="#1a1a2e"/>
+  <g transform="translate(20, 24)">
+    <!-- Factory building -->
+    <rect x="10" y="30" width="68" height="50" rx="4" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+    <!-- Chimney -->
+    <rect x="55" y="10" width="12" height="25" rx="2" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+    <!-- Smoke -->
+    <circle cx="61" cy="6" r="4" fill="#53354a" opacity="0.6"/>
+    <circle cx="65" cy="2" r="3" fill="#53354a" opacity="0.4"/>
+    <!-- Windows -->
+    <rect x="18" y="40" width="10" height="10" rx="2" fill="#e94560"/>
+    <rect x="34" y="40" width="10" height="10" rx="2" fill="#e94560"/>
+    <rect x="50" y="40" width="10" height="10" rx="2" fill="#e94560"/>
+    <!-- Flow arrows -->
+    <path d="M 15 68 L 25 68 L 22 65 M 25 68 L 22 71" stroke="#0f3460" stroke-width="2" fill="none"/>
+    <path d="M 55 68 L 65 68 L 62 65 M 65 68 L 62 71" stroke="#0f3460" stroke-width="2" fill="none"/>
+  </g>
+</svg>

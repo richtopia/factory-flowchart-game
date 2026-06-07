@@ -1,0 +1,19 @@
+id = "steam_reforming"
+name = "Steam Reforming"
+heat_required = 6.2
+
+[[inputs]]
+ingredient_id = "ch4"
+rate = 2.2
+
+[[inputs]]
+ingredient_id = "water"
+rate = 4.9
+
+[[outputs]]
+ingredient_id = "h2"
+rate = 1.1
+
+[[outputs]]
+ingredient_id = "co2"
+rate = 6.0

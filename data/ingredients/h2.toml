@@ -1,0 +1,5 @@
+id = "h2"
+name = "Hydrogen"
+base_unit = "L"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/h2.png"

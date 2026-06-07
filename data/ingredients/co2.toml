@@ -1,0 +1,5 @@
+id = "co2"
+name = "Carbon Dioxide"
+base_unit = "L"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/co2.png"

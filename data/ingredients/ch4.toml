@@ -1,0 +1,5 @@
+id = "ch4"
+name = "Methane"
+base_unit = "L"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/ch4.png"

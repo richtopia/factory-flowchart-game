@@ -1,0 +1,7 @@
+id = "reactor"
+name = "Chemical Reactor"
+width_m = 5.0
+length_m = 3.0
+allowed_recipes = ["steam_reforming"]
+max_input_paths = 3
+max_output_paths = 2
