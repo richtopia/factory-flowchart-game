@@ -1,0 +1,30 @@
+# Godot 4 .gitignore
+
+# Godot-specific ignores
+.godot/
+*.translation
+
+# Exported builds
+/export/
+/build/
+
+# Imported resources (regenerated on import)
+.import/
+
+# Mono-specific ignores (if using C#)
+.mono/
+data_*/
+mono_crash.*.crash
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
