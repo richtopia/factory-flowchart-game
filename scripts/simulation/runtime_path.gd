@@ -39,7 +39,7 @@ func _init(p_id: String, p_path_data: PathData, p_src: RuntimeTool, p_src_port: 
 	target_port = p_tgt_port
 	
 	flow_rate = 0.0
-	carried_ingredient_id = ""
+	update_carried_ingredient()
 
 
 ## Refreshes the carried ingredient ID based on the source tool's output port.
