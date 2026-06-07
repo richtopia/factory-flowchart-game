@@ -85,17 +85,25 @@ func rebuild_slots() -> void:
 	
 	if runtime_tool.is_importer:
 		# Importer has one output port
+		var ing_name := "Import"
+		var ing_data: IngredientData = DataManager.ingredients.get(runtime_tool.import_ingredient_id)
+		if ing_data:
+			ing_name = ing_data.name
 		outputs.append({
 			"ingredient_id": runtime_tool.import_ingredient_id,
 			"rate": 0.0, # Rate is dynamic
-			"name": DataManager.ingredients.get(runtime_tool.import_ingredient_id, {}).get("name", "Import")
+			"name": ing_name
 		})
 	elif runtime_tool.is_exporter:
 		# Exporter has one input port
+		var ing_name := "Export"
+		var ing_data: IngredientData = DataManager.ingredients.get(runtime_tool.import_ingredient_id)
+		if ing_data:
+			ing_name = ing_data.name
 		inputs.append({
 			"ingredient_id": runtime_tool.import_ingredient_id,
 			"rate": 0.0,
-			"name": DataManager.ingredients.get(runtime_tool.import_ingredient_id, {}).get("name", "Export")
+			"name": ing_name
 		})
 	elif runtime_tool.selected_recipe != null:
 		# Standard recipe-based ports
