@@ -1,4 +1,4 @@
 id = "pipeline"
 name = "Pipeline"
-allowed_ingredients = ["water", "ch4", "h2", "co2"]
+allowed_ingredients = ["water", "ch4", "h2", "co2", "molten_aluminum"]
 visual_style = "dense_dashed"

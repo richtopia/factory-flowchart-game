@@ -1,0 +1,15 @@
+id = "alumina_refining"
+name = "Alumina Refining"
+heat_required = 0.0
+
+[[inputs]]
+ingredient_id = "bauxite"
+rate = 6.0
+
+[[inputs]]
+ingredient_id = "water"
+rate = 3.0
+
+[[outputs]]
+ingredient_id = "alumina"
+rate = 3.0

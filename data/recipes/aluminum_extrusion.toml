@@ -1,0 +1,11 @@
+id = "aluminum_extrusion"
+name = "Aluminum Extrusion"
+heat_required = 0.0
+
+[[inputs]]
+ingredient_id = "molten_aluminum"
+rate = 2.0
+
+[[outputs]]
+ingredient_id = "extruded_bar"
+rate = 1.9

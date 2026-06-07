@@ -115,44 +115,48 @@ static func solve_rates(tools: Dictionary, paths: Dictionary) -> void:
 				new_rates[tool.id] = clampf(min_ratio, 0.0, 1.0)
 
 		# F. Backward Pass: Throttling & Backpressure
-		# Adjust operating rates if downstream connections cannot accept the outputs
-		for tool: RuntimeTool in tools.values():
-			if tool.is_importer or tool.is_exporter or tool.selected_recipe == null:
-				continue
-
-			var min_out_ratio := 1.0
-			var current_rate: float = new_rates[tool.id]
-
-			for j in range(tool.selected_recipe.outputs.size()):
-				var key := "%s_%d" % [tool.id, j]
-				if not port_paths.has(key):
-					# Unconnected output does not throttle (it vents/wastes)
+		# Loop backpressure propagation until rates converge to handle arbitrary topological order
+		var bp_converged := false
+		while not bp_converged:
+			bp_converged = true
+			for tool: RuntimeTool in tools.values():
+				if tool.is_importer or tool.is_exporter or tool.selected_recipe == null:
 					continue
 
-				var plist: Array = port_paths[key]
-				var total_path_capacity := 0.0
-				for path: RuntimePath in plist:
-					var path_cap := 0.0
-					if path.target_tool.is_exporter:
-						path_cap = 10000.0  # Exporters accept everything
-					elif path.target_tool.selected_recipe != null:
-						var tgt_port := path.target_port
-						if tgt_port < path.target_tool.selected_recipe.inputs.size():
-							var target_req := path.target_tool.selected_recipe.inputs[tgt_port].rate
-							# Target can consume up to its requirement * its operating rate
-							# (using the newly computed operating rate for this iteration)
-							var target_rate: float = new_rates.get(path.target_tool.id, 0.0)
-							path_cap = target_req * target_rate
-					total_path_capacity += path_cap
+				var min_out_ratio := 1.0
+				var current_rate: float = new_rates[tool.id]
 
-				var req_out := tool.selected_recipe.outputs[j].rate
-				if req_out > 0.0:
-					var out_ratio := total_path_capacity / req_out
-					if out_ratio < min_out_ratio:
-						min_out_ratio = out_ratio
+				for j in range(tool.selected_recipe.outputs.size()):
+					var key := "%s_%d" % [tool.id, j]
+					if not port_paths.has(key):
+						# Unconnected output does not throttle (it vents/wastes)
+						continue
 
-			# Clamp operating rate based on backpressure
-			new_rates[tool.id] = clampf(minf(current_rate, min_out_ratio), 0.0, 1.0)
+					var plist: Array = port_paths[key]
+					var total_path_capacity := 0.0
+					for path: RuntimePath in plist:
+						var path_cap := 0.0
+						if path.target_tool.is_exporter:
+							path_cap = 10000.0  # Exporters accept everything
+						elif path.target_tool.selected_recipe != null:
+							var tgt_port := path.target_port
+							if tgt_port < path.target_tool.selected_recipe.inputs.size():
+								var target_req := path.target_tool.selected_recipe.inputs[tgt_port].rate
+								# Target can consume up to its requirement * its operating rate
+								var target_rate: float = new_rates.get(path.target_tool.id, 0.0)
+								path_cap = target_req * target_rate
+						total_path_capacity += path_cap
+
+					var req_out := tool.selected_recipe.outputs[j].rate
+					if req_out > 0.0:
+						var out_ratio := total_path_capacity / req_out
+						if out_ratio < min_out_ratio:
+							min_out_ratio = out_ratio
+
+				var target_rate := clampf(minf(current_rate, min_out_ratio), 0.0, 1.0)
+				if absf(new_rates[tool.id] - target_rate) > 0.0001:
+					new_rates[tool.id] = target_rate
+					bp_converged = false
 
 		# G. Apply changes and check for convergence
 		for tool: RuntimeTool in tools.values():

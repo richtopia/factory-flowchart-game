@@ -1,0 +1,5 @@
+id = "molten_aluminum"
+name = "Molten Aluminum"
+base_unit = "kg"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/molten_aluminum.png"

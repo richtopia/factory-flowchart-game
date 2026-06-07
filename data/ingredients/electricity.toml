@@ -1,0 +1,5 @@
+id = "electricity"
+name = "Electricity"
+base_unit = "W"
+measurement_unit = "MW"
+icon_path = "res://assets/icons/electricity.png"

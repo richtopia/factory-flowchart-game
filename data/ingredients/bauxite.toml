@@ -1,0 +1,5 @@
+id = "bauxite"
+name = "Bauxite Ore"
+base_unit = "kg"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/bauxite.png"

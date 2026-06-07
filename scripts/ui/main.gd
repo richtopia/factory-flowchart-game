@@ -76,7 +76,93 @@ func _initialize_simulations(sim_engine: SimulationEngineClass) -> void:
 		
 		# Build a default working demo graph on the default map
 		if map_id == "aluminum_valley":
+			_create_demo_aluminum_chain(sim)
+		elif map_id == "chemical_plant":
 			_create_demo_chemical_plant(sim)
+
+
+# Creates a default working aluminum production chain.
+func _create_demo_aluminum_chain(sim: MapSimulation) -> void:
+	# Fetch configurations from DataManager
+	var mine_data: ToolData = DataManager.tools.get("bauxite_mine")
+	var refinery_data: ToolData = DataManager.tools.get("refinery")
+	var smelter_data: ToolData = DataManager.tools.get("smelter")
+	var extruder_data: ToolData = DataManager.tools.get("extruder")
+	
+	var bauxite_mining_recipe: RecipeData = DataManager.recipes.get("bauxite_mining")
+	var alumina_refining_recipe: RecipeData = DataManager.recipes.get("alumina_refining")
+	var aluminum_smelting_recipe: RecipeData = DataManager.recipes.get("aluminum_smelting")
+	var aluminum_extrusion_recipe: RecipeData = DataManager.recipes.get("aluminum_extrusion")
+	
+	var conveyor_path_data: PathData = DataManager.paths.get("conveyor")
+	var power_line_path_data: PathData = DataManager.paths.get("power_line")
+	var pipeline_path_data: PathData = DataManager.paths.get("pipeline")
+	
+	if not mine_data or not refinery_data or not smelter_data or not extruder_data:
+		return
+	if not bauxite_mining_recipe or not alumina_refining_recipe or not aluminum_smelting_recipe or not aluminum_extrusion_recipe:
+		return
+	if not conveyor_path_data or not power_line_path_data or not pipeline_path_data:
+		return
+		
+	# 1. Power substation (Importer importing electricity from map "grid")
+	var power_substation := RuntimeTool.new("power_substation", mine_data)
+	power_substation.configure_as_importer("grid", "electricity")
+	power_substation.import_available_rate = 30.0  # MW
+	sim.add_tool(power_substation)
+	
+	# 2. Water pump (Importer importing water from map "lake")
+	var water_pump := RuntimeTool.new("water_pump", mine_data)
+	water_pump.configure_as_importer("lake", "water")
+	water_pump.import_available_rate = 10.0 # ton/hour
+	sim.add_tool(water_pump)
+	
+	# 3. Bauxite Mine
+	var mine_1 := RuntimeTool.new("mine_1", mine_data)
+	mine_1.set_recipe(bauxite_mining_recipe)
+	sim.add_tool(mine_1)
+	
+	# 4. Alumina Refinery
+	var refinery_1 := RuntimeTool.new("refinery_1", refinery_data)
+	refinery_1.set_recipe(alumina_refining_recipe)
+	sim.add_tool(refinery_1)
+	
+	# 5. Aluminum Smelter
+	var smelter_1 := RuntimeTool.new("smelter_1", smelter_data)
+	smelter_1.set_recipe(aluminum_smelting_recipe)
+	sim.add_tool(smelter_1)
+	
+	# 6. Aluminum Extruder
+	var extruder_1 := RuntimeTool.new("extruder_1", extruder_data)
+	extruder_1.set_recipe(aluminum_extrusion_recipe)
+	sim.add_tool(extruder_1)
+	
+	# 7. Bar Exporter (sends extruded_bar to "aluminum_valley_sub" map)
+	var bar_exporter := RuntimeTool.new("bar_exporter", mine_data)
+	bar_exporter.configure_as_exporter("aluminum_valley_sub", "extruded_bar")
+	sim.add_tool(bar_exporter)
+	
+	# Connect paths
+	var p1 := RuntimePath.new("path_p1", power_line_path_data, power_substation, 0, mine_1, 0)
+	sim.add_path(p1)
+	
+	var p2 := RuntimePath.new("path_p2", power_line_path_data, power_substation, 0, smelter_1, 1)
+	sim.add_path(p2)
+	
+	var p3 := RuntimePath.new("path_p3", pipeline_path_data, water_pump, 0, refinery_1, 1)
+	sim.add_path(p3)
+	
+	var p4 := RuntimePath.new("path_p4", conveyor_path_data, mine_1, 0, refinery_1, 0)
+	sim.add_path(p4)
+	
+	var p5 := RuntimePath.new("path_p5", conveyor_path_data, refinery_1, 0, smelter_1, 0)
+	sim.add_path(p5)
+	
+	var p6 := RuntimePath.new("path_p6", pipeline_path_data, smelter_1, 0, extruder_1, 0)
+	sim.add_path(p6)
+	
+	var p7 := RuntimePath.new("path_p7", conveyor_path_data, extruder_1, 0, bar_exporter, 0)
+	sim.add_path(p7)
 
 
 # Creates a default working methane steam reforming plant.

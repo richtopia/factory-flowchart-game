@@ -1,0 +1,7 @@
+id = "extruder"
+name = "Aluminum Extruder"
+width_m = 12.0
+length_m = 8.0
+allowed_recipes = ["aluminum_extrusion"]
+max_input_paths = 1
+max_output_paths = 1

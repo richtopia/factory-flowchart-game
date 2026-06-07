@@ -1,0 +1,15 @@
+id = "aluminum_smelting"
+name = "Aluminum Smelting"
+heat_required = 0.0
+
+[[inputs]]
+ingredient_id = "alumina"
+rate = 4.0
+
+[[inputs]]
+ingredient_id = "electricity"
+rate = 20.0
+
+[[outputs]]
+ingredient_id = "molten_aluminum"
+rate = 2.0

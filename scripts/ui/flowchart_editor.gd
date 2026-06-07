@@ -130,7 +130,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	# Determine visual style based on ingredient properties
 	if src_ing == "electricity" or src_ing == "heat":
 		raw_path_data.visual_style = "sparse_dashed"
-	elif src_ing == "bauxite" or src_ing == "alumina" or src_ing == "aluminum":
+	elif src_ing == "bauxite" or src_ing == "alumina" or src_ing == "aluminum" or src_ing == "extruded_bar":
 		raw_path_data.visual_style = "solid"
 		
 	var r_path := RuntimePath.new(path_id, raw_path_data, src_node.runtime_tool, from_port, tgt_node.runtime_tool, to_port)

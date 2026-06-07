@@ -1,0 +1,8 @@
+id = "chemical_plant"
+name = "Methane Reforming Plant"
+width_m = 500
+length_m = 200
+
+[link]
+is_linked_map = false
+target_map_id = ""

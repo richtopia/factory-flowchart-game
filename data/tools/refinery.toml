@@ -1,0 +1,7 @@
+id = "refinery"
+name = "Alumina Refinery"
+width_m = 20.0
+length_m = 15.0
+allowed_recipes = ["alumina_refining"]
+max_input_paths = 2
+max_output_paths = 1

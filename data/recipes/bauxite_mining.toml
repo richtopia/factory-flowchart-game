@@ -1,0 +1,11 @@
+id = "bauxite_mining"
+name = "Bauxite Mining"
+heat_required = 0.0
+
+[[inputs]]
+ingredient_id = "electricity"
+rate = 1.0
+
+[[outputs]]
+ingredient_id = "bauxite"
+rate = 12.0

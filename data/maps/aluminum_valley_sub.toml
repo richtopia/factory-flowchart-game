@@ -1,0 +1,8 @@
+id = "aluminum_valley_sub"
+name = "Aluminum Processing Sub-Station"
+width_m = 300
+length_m = 150
+
+[link]
+is_linked_map = true
+target_map_id = "aluminum_valley"

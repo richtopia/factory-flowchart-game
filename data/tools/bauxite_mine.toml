@@ -1,0 +1,7 @@
+id = "bauxite_mine"
+name = "Bauxite Mine"
+width_m = 10.0
+length_m = 10.0
+allowed_recipes = ["bauxite_mining"]
+max_input_paths = 1
+max_output_paths = 1

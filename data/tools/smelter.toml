@@ -1,0 +1,7 @@
+id = "smelter"
+name = "Aluminum Smelter"
+width_m = 25.0
+length_m = 12.0
+allowed_recipes = ["aluminum_smelting"]
+max_input_paths = 2
+max_output_paths = 1

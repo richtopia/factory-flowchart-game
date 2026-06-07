@@ -1,0 +1,4 @@
+id = "power_line"
+name = "Power Line"
+allowed_ingredients = ["electricity"]
+visual_style = "sparse_dashed"

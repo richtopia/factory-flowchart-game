@@ -1,0 +1,5 @@
+id = "alumina"
+name = "Alumina"
+base_unit = "kg"
+measurement_unit = "ton"
+icon_path = "res://assets/icons/alumina.png"

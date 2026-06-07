@@ -1,0 +1,4 @@
+id = "conveyor"
+name = "Conveyor"
+allowed_ingredients = ["bauxite", "alumina", "extruded_bar"]
+visual_style = "solid"

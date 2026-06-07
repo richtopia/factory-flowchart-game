@@ -248,7 +248,7 @@ func _get_ingredient_color(ing_id: String) -> Color:
 			return Color(0.9, 0.4, 0.1) # Carbon Dioxide Orange
 		"alumina", "aluminum_ore", "bauxite":
 			return Color(0.8, 0.5, 0.3) # Ore Brown
-		"molten_aluminum", "aluminum":
+		"molten_aluminum", "aluminum", "extruded_bar":
 			return Color(0.8, 0.8, 0.8) # Silver Metal
 		"electricity":
 			return Color(1.0, 0.9, 0.1) # Bright yellow
