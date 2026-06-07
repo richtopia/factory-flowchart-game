@@ -22,12 +22,6 @@ func _ready() -> void:
 	# Register valid connections for each ingredient
 	_register_valid_connections()
 	
-	# Apply transparent theme overrides so the default solid lines are invisible
-	add_theme_color_override("connection_color", Color(0, 0, 0, 0))
-	add_theme_color_override("connection_rim_color", Color(0, 0, 0, 0))
-	add_theme_color_override("connection_hover_tint_color", Color(0, 0, 0, 0))
-	add_theme_color_override("connection_valid_target_tint_color", Color(1, 1, 1, 0.4)) # Slight drag hint
-	
 	# Connect GraphEdit signals
 	connect("connection_request", _on_connection_request)
 	connect("disconnection_request", _on_disconnection_request)
@@ -180,52 +174,6 @@ func on_tool_recipe_changed(node: ToolNode) -> void:
 				_on_disconnection_request(conn.from_node, conn.from_port, conn.to_node, conn.to_port)
 
 
-## Draws custom styled lines over the transparent native GraphEdit connections.
-func _draw() -> void:
-	if current_map_sim == null:
-		return
-		
-	for conn: Dictionary in get_connection_list():
-		var from_node := get_node_or_null(str(conn.from_node)) as ToolNode
-		var to_node := get_node_or_null(str(conn.to_node)) as ToolNode
-		
-		if not from_node or not to_node:
-			continue
-			
-		# 1. Fetch port positions relative to GraphNode
-		var start_local := from_node.get_output_port_position(conn.from_port)
-		var end_local := to_node.get_input_port_position(conn.to_port)
-		
-		# 2. Convert to GraphEdit local draw coordinates (apply zoom and scroll_offset)
-		var p1 := (from_node.position_offset + start_local - scroll_offset) * zoom
-		var p2 := (to_node.position_offset + end_local - scroll_offset) * zoom
-		
-		# 3. Find matching path to retrieve visual styles
-		var style := "solid"
-		var color := Color.GRAY
-		var flow := 0.0
-		
-		for path_id: String in current_map_sim.paths:
-			var p: RuntimePath = current_map_sim.paths[path_id]
-			if p.source_tool.id == from_node.name and p.source_port == conn.from_port and p.target_tool.id == to_node.name and p.target_port == conn.to_port:
-				style = p.path_data.visual_style
-				color = from_node._get_ingredient_color(p.carried_ingredient_id)
-				flow = p.flow_rate
-				break
-				
-		# Draw line with increased thickness if there is active material flow
-		var line_width := 2.5
-		if flow > 0.0:
-			line_width = 4.5
-			
-		# 4. Render connection line
-		match style:
-			"dense_dashed":
-				draw_dashed_line(p1, p2, color, line_width, 6.0 * zoom, 3.0 * zoom)
-			"sparse_dashed":
-				draw_dashed_line(p1, p2, color, line_width, 12.0 * zoom, 8.0 * zoom)
-			_:
-				draw_line(p1, p2, color, line_width)
 
 
 # Maps ingredient ID string to integer port type.
